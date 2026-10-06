@@ -1,4 +1,4 @@
-# Cadastro de contatos
+# Cadastro de contatos em Java Swing
 
 Aplicação desktop simples feita em Java Swing para praticar formulários, eventos, tabelas e separação entre interface e dados. É um projeto de estudo: os contatos ficam somente na memória e são apagados quando a aplicação é fechada.
 
@@ -65,5 +65,4 @@ $sources = Get-ChildItem src -Recurse -Filter *.java | ForEach-Object { $_.FullN
 javac -encoding UTF-8 -d build/classes $sources
 java -cp build/classes inserir.excluir.linhas.InserirExcluirLinhas
 ```
-
 
