@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inserir.excluir.linhas;
 
-/**
- *
- * @author user
- */
-public class InserirExcluirLinhas {
+import inserir.excluir.linhas.ui.JCadastro;
+import javax.swing.SwingUtilities;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+/** Inicializa a aplicação de cadastro de contatos. */
+public final class InserirExcluirLinhas {
+
+    private InserirExcluirLinhas() {
     }
-    
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new JCadastro().setVisible(true));
+    }
 }

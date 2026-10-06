@@ -1,13 +1,21 @@
-package inserir.excluir.linhas;
+package inserir.excluir.linhas.ui;
 
-    import static java.awt.AWTEventMulticaster.add;
-    import static java.awt.AWTEventMulticaster.add;
-    import javax.swing.table.DefaultTableModel;
+import inserir.excluir.linhas.model.Contato;
+import inserir.excluir.linhas.model.ContatoTableModel;
+import javax.swing.JOptionPane;
 
 public class JCadastro extends javax.swing.JFrame {
 
-        public JCadastro() {
+    private final ContatoTableModel modelo = new ContatoTableModel();
+
+    public JCadastro() {
         initComponents();
+        setTitle("Cadastro de contatos");
+        setLocationRelativeTo(null);
+        jtb1.setModel(modelo);
+        jtb1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jtb1.setAutoCreateRowSorter(true);
+        jBrem.addActionListener(evt -> removerContato());
     }
 
        @SuppressWarnings("unchecked")
@@ -98,7 +106,7 @@ public class JCadastro extends javax.swing.JFrame {
                         .addComponent(jBrem)))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addContainerGap())
         );
 
         pack();
@@ -109,44 +117,29 @@ public class JCadastro extends javax.swing.JFrame {
         String end = jtend.getText().trim();
         String tel = jttel.getText();
         
-        DefaultTableModel val = (DefaultTableModel)jtb1.getModel();
-        
-        val.addRow(new String []{nome,end,tel});
-        
+        if (nome.isEmpty() || end.isEmpty() || tel.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Preencha nome, endereço e telefone.",
+                    "Dados incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        modelo.adicionar(new Contato(nome, end, tel.trim()));
         jtnome.setText("");
         jtend.setText("");
         jttel.setText("");
         
         jtnome.requestFocus();
     }//GEN-LAST:event_jBadcActionPerformed
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void removerContato() {
+        int linhaSelecionada = jtb1.getSelectedRow();
+        if (linhaSelecionada < 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um contato para remover.",
+                    "Nenhum contato selecionado", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new JCadastro().setVisible(true);
-        });
+        modelo.remover(jtb1.convertRowIndexToModel(linhaSelecionada));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
